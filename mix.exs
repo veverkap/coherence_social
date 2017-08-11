@@ -1,15 +1,19 @@
 defmodule CoherenceSocial.Mixfile do
   use Mix.Project
 
+  @version "0.0.1"
+
   def project do
     [app: :coherence_social,
-     version: "0.0.1",
-     elixir: "~> 1.4",
+     version: @version,
+     elixir: "~> 1.3",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      start_permanent: Mix.env == :prod,
-     aliases: aliases(),
-     deps: deps()]
+     build_embedded: Mix.env == :prod,
+     docs: [extras: ["README.md"], main: "Coherence"],
+     deps: deps(),
+     package: package()]
   end
 
   # Configuration for the OTP application.
@@ -28,25 +32,22 @@ defmodule CoherenceSocial.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.3.0-rc"},
-     {:phoenix_pubsub, "~> 1.0"},
-     {:phoenix_ecto, "~> 3.2"},
-     {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 2.6"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"}]
+    [
+      {:coherence, github: "smpallen99/coherence", rel: "phx-1.3"},
+      {:cowboy, "~> 1.0"},
+      {:gettext, "~> 0.11"},
+      {:phoenix, "~> 1.3.0-rc"},
+      {:phoenix_ecto, "~> 3.2"},
+      {:phoenix_html, "~> 2.6"},
+      {:phoenix_pubsub, "~> 1.0"},
+      {:postgrex, ">= 0.0.0"},
+      {:phoenix_live_reload, "~> 1.0", only: :dev}]
   end
 
-  # Aliases are shortcuts or tasks specific to the current project.
-  # For example, to create, migrate and run the seeds file at once:
-  #
-  #     $ mix ecto.setup
-  #
-  # See the documentation for `Mix` for more info on aliases.
-  defp aliases do
-    ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-     "ecto.reset": ["ecto.drop", "ecto.setup"],
-     "test": ["ecto.create --quiet", "ecto.migrate", "test"]]
+  defp package do
+    [ maintainers: ["Patrick Veverka"],
+      licenses: ["MIT"],
+      links: %{ "Github" => "https://github.com/veverkap/coherence_social" },
+      files: ~w(lib priv README.md mix.exs LICENSE)]
   end
 end
